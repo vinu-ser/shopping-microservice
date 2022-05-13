@@ -11,9 +11,10 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-public class Category {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer categoryId;
-    private String categoryName;
+    private Integer brandId;
+
+    private String brandName;
 }

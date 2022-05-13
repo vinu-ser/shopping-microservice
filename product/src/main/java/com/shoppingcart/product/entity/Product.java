@@ -1,35 +1,41 @@
 package com.shoppingcart.product.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.*;
 
-import javax.validation.constraints.Max;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Document(collection = "product")
+@Getter
+@Setter
+@Entity
+@Table(name = "product")
 public class Product {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @NotNull(message = "Product name should not be null")
     private String name;
-
-    @NotNull(message = "Category of the product should not be null")
-    private Category category;
 
     @Min(0)
     private BigDecimal price;
+    private String imageURL;
+    private String colour;
+    private String gender;
+    private String description;
 
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoryId", nullable = false)
+    private Category category;
+  /*  @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subcategoryId", nullable = false)
+    private SubCategory subCategory;*/
+    @ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "brandId", nullable = false)
+    private Brand brand;
 
-
-    private List<String> imageURLs;
 }

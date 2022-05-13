@@ -1,38 +1,42 @@
-package com.shoppingcart.product.controller;
+package com.shoppingcart.order.controller;
 
-import com.shoppingcart.product.dto.ProductDTO;
-import com.shoppingcart.product.dto.ProductSearchResponse;
-import com.shoppingcart.product.dto.ResponseDTO;
-import com.shoppingcart.product.entity.Product;
-import com.shoppingcart.product.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.shoppingcart.order.dto.CartRequest;
+import com.shoppingcart.order.service.CartService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.validation.Valid;
 import java.util.List;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class ProductController {
+public class CartController {
 
-    private final  ProductService productService;
+    private final CartService cartService;
 
 
 
-    @PostMapping("/product")
-    ResponseEntity<String> addProduct( @RequestBody @Valid ProductDTO productDTO) {
+    @PostMapping("/cart")
+    ResponseEntity<String> addProduct(@RequestBody @Valid CartRequest cartRequest) throws JsonProcessingException {
 
-         productService.addProduct(productDTO);
+        cartService.addtoCart(cartRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Product Added");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Added to cart");
     }
-    @GetMapping("/product/{id}")
+       @GetMapping("/cart/{userId}")
+       List<CartRequest> productCategoryList(@PathVariable String userId) throws JsonProcessingException {
+        return cartService.getCart(userId);
+    }
+
+   /* @GetMapping("/product/{id}")
     Product productById(@PathVariable Integer id) {
         return productService.productById(id);
     }
@@ -56,7 +60,7 @@ public class ProductController {
         res.setData(result);
         return new ResponseEntity<ResponseDTO<ProductSearchResponse>>(res, HttpStatus.OK);
     }
-
+*/
 /*
 
     @GetMapping("/products")
