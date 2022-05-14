@@ -91,6 +91,11 @@ public class ProductService {
 
     }
 
+    public List<Product> productsByIds(List<String> ids) {
+        List<Product> productList = productRepository.findByIdIn(ids);
+        return productList;
+    }
+
  /*   public ProductResponse updateProduct(Product product) {
 
         Optional<Product> prod = productRepository.findById(product.getId());

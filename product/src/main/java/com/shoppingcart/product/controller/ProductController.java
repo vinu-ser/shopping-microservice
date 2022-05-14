@@ -36,6 +36,11 @@ public class ProductController {
     Product productById(@PathVariable Integer id) {
         return productService.productById(id);
     }
+    @GetMapping("/products")
+    List<Product> productsByIds( @RequestParam List<String> ids)
+    {
+        return productService.productsByIds(ids);
+    }
     @PostMapping("/product/image/{id}")
     public ResponseEntity<String> productFileUpload(@RequestParam("file") MultipartFile file,
                                                     @PathVariable Integer id
