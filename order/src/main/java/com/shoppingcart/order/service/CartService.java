@@ -29,13 +29,7 @@ private final ObjectMapper objectMapper;
 
 
     public void addtoCart(@Valid CartRequest cartRequest) throws JsonProcessingException {
-        List<CartRequest> cartRequests = new ArrayList<>();
-        if(stringRedisTemplate.hasKey("1")){
-            String cartCache = stringRedisTemplate.opsForValue().get("1");
-            ObjectMapper objectMapper = new ObjectMapper();
-            CartRequest[] pojos = objectMapper.readValue(cartCache, CartRequest[].class);
-            cartRequests = new ArrayList<>(Arrays.asList(pojos));
-        }
+        List<CartRequest> cartRequests = getCartCache("1");
         cartRequests.add(cartRequest);
         String cartString = objectMapper.writeValueAsString(cartRequests);
 
@@ -45,6 +39,10 @@ private final ObjectMapper objectMapper;
     }
 
     public List<CartRequest> getCart(String userId) throws JsonProcessingException {
+
+        return  getCartCache(userId);
+    }
+    private List<CartRequest> getCartCache(String userId) throws JsonProcessingException {
         List<CartRequest> cartRequests = new ArrayList<>();
         if(stringRedisTemplate.hasKey(userId)){
             String cartCache = stringRedisTemplate.opsForValue().get(userId);
@@ -54,4 +52,5 @@ private final ObjectMapper objectMapper;
         }
         return  cartRequests;
     }
+
 }

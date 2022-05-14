@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: Product Microservice
+    name: product-service
   datasource:
           password: root
           url: jdbc:mysql://localhost:3306/shopping-cart
@@ -17,5 +17,9 @@ spring:
               dialect: org.hibernate.dialect.MySQL8Dialect
               format_sql: true
           show-sql: true
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    registerWithEureka: true
 
